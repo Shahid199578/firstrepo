@@ -1,14 +1,8 @@
 node {
     stage('Git Checkout') {
         
-        git branch: 'main', credentialsId: 'Github', url: 'https://github.com/abhishekishor/maven-project.git'
-        
-        echo "=======================================Pulled Code from Github======================================="
-        
+        git branch: 'main', credentialsId: 'Github', url: 'https://github.com/Shahid199578/firstrepo.git'
     }
-    
-    echo "=========================================Building Maven Project=========================================="
-    
     stage('Maven Build') {
         
         def MavenHome= tool name: "Maven-Tool", type: "maven"
@@ -17,14 +11,7 @@ node {
         
         sh "${mavenCMD} clean package"
         
-    echo "==========================================Built Maven Project============================================"
-    
-    echo "=========================================Archieving Artifact============================================="
-    
-        archiveArtifacts artifacts: '**/*.war'
-    
-    echo "==========================================Artifact Archieved============================================="
-        
+    archiveArtifacts artifacts: '**/*.war' 
     }
       
 }
