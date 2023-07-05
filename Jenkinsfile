@@ -1,7 +1,7 @@
 node {
     stage('Git Checkout') {
         
-        git branch: 'main', credentialsId: 'Github', url: 'https://github.com/Shahid199578/firstrepo.git'
+        git branch: 'master', url: 'https://github.com/Shahid199578/firstrepo.git'
     }
     stage('Maven Build') {
         
