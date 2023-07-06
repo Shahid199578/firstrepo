@@ -9,9 +9,7 @@ node {
         
         def mavenCMD= "${MavenHome}/bin/mvn"
         
-        sh "${mavenCMD} clean package"
-        
-    archiveArtifacts artifacts: '**/*.war' 
+        sh "${mavenCMD} clean package" 
     }
     stage("push artifact") {
             steps {
