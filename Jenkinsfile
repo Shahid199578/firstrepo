@@ -13,5 +13,9 @@ node {
         
     archiveArtifacts artifacts: '**/*.war' 
     }
+    stage("push artifact") {
+            steps {
+                sh "sudo cp **/*.war  /opt/apache-tomcat-9.0.76/webapps"
+            }
       
 }
