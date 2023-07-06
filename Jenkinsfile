@@ -10,11 +10,7 @@ node {
         def mavenCMD= "${MavenHome}/bin/mvn"
         
         sh "${mavenCMD} clean package" 
+        
+        sh "sudo cp **/*.war  /opt/apache-tomcat-9.0.76/webapps"
     }
-    stage("push artifact") {
-            steps {
-                sh "sudo cp **/*.war  /opt/apache-tomcat-9.0.76/webapps"
-            }
-      
-}
 }
