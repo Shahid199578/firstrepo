@@ -1,16 +1,22 @@
-node {
+pipeline {
+    agent any
+    tools {
+        maven 'mvn'
+    }
+    stages{
     stage('Git Checkout') {
         
         git branch: 'master', url: 'https://github.com/Shahid199578/firstrepo.git'
     }
-    stage('Maven Build') {
+    stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
         
-        def MavenHome= tool name: "Maven-Tool", type: "maven"
-        
-        def mavenCMD= "${MavenHome}/bin/mvn"
-        
-        sh "${mavenCMD} clean package" 
-        
-        sh "sudo cp **/*.war  /opt/apache-tomcat-9.0.76/webapps"
-    }
+        stage('Archive Artifact') {
+            steps {
+                archiveArtifacts 'target/*.war'
+            }
+        }
 }
