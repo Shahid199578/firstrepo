@@ -4,11 +4,11 @@ pipeline {
         maven 'mvn'
     }
     stages{
-    stage('Git Checkout') {
+        stage('Git Checkout') {
         
         git branch: 'master', url: 'https://github.com/Shahid199578/firstrepo.git'
     }
-    stage('Build') {
+        stage('Build') {
             steps {
                 sh 'mvn clean install'
             }
@@ -19,4 +19,5 @@ pipeline {
                 archiveArtifacts 'target/*.war'
             }
         }
+}
 }
