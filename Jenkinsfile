@@ -37,13 +37,8 @@ pipeline {
         stage ("Upload War File") {
            
             steps {
-            
-                sshagent(['tomcat-server']) {
-                       
-                    sh "scp -o StrictHostKeyChecking=no $WORKSPACE/target/maven-web-application.war ubuntu@172.31.86.247:/opt/tomcat/webapps"
-                       
-                    archiveArtifacts artifacts: '**/*.war'                  
-                }               
+                sh 'cp target/*.war /opt/apache-tomcat-9.0.76/webapps'               
+                          
             }           
         }
        
