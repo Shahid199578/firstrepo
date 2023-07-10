@@ -37,7 +37,7 @@ pipeline {
         stage ("Upload War File") {
            
             steps {
-                sh 'cp target/*.war /opt/apache-tomcat-9.0.76/webapps'               
+                sh 'sudo cp target/*.war /opt/apache-tomcat-9.0.76/webapps'               
                           
             }           
         }
