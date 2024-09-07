@@ -1,74 +1,41 @@
 pipeline {
-   
     agent any
-   
-    tools {
-       
-        maven 'Maven-Tool'
-       
-    }
-   
+
     environment {
-           
-            IP_ADDRESS = "172.31.89.210"
-        }
-   
-    stages {
-       
-        stage ("Git Checkout") {
-           
-            steps {
-               
-                git url: 'https://github.com/Shahid199578/firstrepo.git'
-               
-            }
-           
-        }
-       
-        stage ("Maven Build") {
-           
-            steps {
-               
-                sh "mvn clean package"
-               
-            }
-        }
-       
-        stage ("Upload War File") {
-           
-            steps {
-                sh 'sudo cp target/*.war /opt/apache-tomcat-9.0.76/webapps'               
-                          
-            }           
-        }
-       
-        stage ("Upload-Artifact") {
-           
-            steps {
-               
-                script {
-                   
-                    def mavenPom = readMavenPom file: 'pom.xml'
-                   
-                    nexusArtifactUploader artifacts: [
-                        [
-                            artifactId: "${mavenPom.artifactId}",
-                            classifier: '',
-                            file: "target/${mavenPom.artifactId}.war",
-                            type: "${mavenPom.packaging}"
-                        ]
-                    ],
-                        credentialsId: 'nexus3',
-                        groupId: "${mavenPom.groupId}",
-                        nexusUrl: "${env.IP_ADDRESS}:8081",
-                        nexusVersion: 'nexus3',
-                        protocol: 'http',
-                        repository: 'Nexus-Pipeline/',
-                        version: "${mavenPom.version}"                   
-                }
-               
-            }
-           
-        }       
+        // Define the folder where the Git content will be pulled
+        FOLDER_NAME = 'develop'
+        REPO_URL = ' https://github.com/Shahid199578/firstrepo.git '
+        BRANCH_NAME = 'develop'
     }
-}
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Clean up previous workspace
+                    deleteDir()
+
+                    // Create a directory for the Git content
+                    sh "mkdir -p ${env.FOLDER_NAME}"
+
+                    // Checkout code from Git into the specific folder
+                    dir(env.FOLDER_NAME) {
+                        git branch: env.BRANCH_NAME, url: env.REPO_URL
+                    }
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                // Build steps here
+                echo 'Building...'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Deploy steps here
+                echo 'Deploying...'
+            }
+        }
+    }
+} 
